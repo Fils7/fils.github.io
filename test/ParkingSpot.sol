@@ -5,32 +5,43 @@ import "./Ownable.sol";
 
 contract ParkingSpot is Ownable {
 
-    address public _spotId;
+
+    uint public spotId;
 
     modifier checkCost(uint _value) {
         require (msg.value >= _value, "Not enought ether");
+        _;
     }
-
+    modifier checkStatus {
+        require(currentStatus == lotStatus.VACANT);
+        _;
+    }
 
     enum lotStatus { VACANT, FULL }
     lotStatus public currentStatus;
 
     event Occupy (address _occupant, uint _value);
 
-    constructor() {
+    constructor(uint _spotId) {
         super;
+        spotId = _spotId;
         currentStatus = lotStatus.VACANT;
     }
 
-    function checkVacancy (uint _spotId) public view {
-        
-    }
+    function checkVacancy() public view returns (bool) {
+        if (currentStatus == lotStatus.VACANT) {
+            return true;
 
+       } else {
+            return false;
+        }
+    }
     function park() payable external checkCost (2 ether) {
-        require (currentStatus = lotStatus.VACANT, "Cureently Full.")
-        currentStatus = lotStatus.FULL
+        currentStatus = lotStatus.FULL;
         owner.transfer(msg.value);
     }
 
-
+    function getOut() external {
+       currentstatus == lotstatus.VACANT;
+    }
 }

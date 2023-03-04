@@ -2,10 +2,11 @@
 pragma solidity >0.7.0;
 
 contract Ownable {
+
     address payable public owner;
 
     constructor() {
-        tx.origin = owner;
+        owner = tx.origin;
     }
 
     modifier checkOwnership {
